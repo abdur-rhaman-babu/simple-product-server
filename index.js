@@ -47,6 +47,12 @@ async function run() {
       res.send(result);
     });
 
+    app.put('/products/:id', async(req, res)=>{
+      const id = req.params.id;
+      const updatedProduct = req.body;
+      console.log(updatedProduct)
+    })
+
     app.delete("/products/:id", async (req, res) => {
       const id = req.params.id;
       // console.log("plz delete from database", id);
