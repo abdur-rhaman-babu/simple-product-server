@@ -40,7 +40,7 @@ async function run() {
     })
 
     app.post("/products", async (req, res) => {
-      console.log("post is hitting");
+      // console.log("post is hitting");
       const person = req.body;
       console.log("user", person);
       const result = await productCollection.insertOne(person);
@@ -49,8 +49,21 @@ async function run() {
 
     app.put('/products/:id', async(req, res)=>{
       const id = req.params.id;
-      const updatedProduct = req.body;
-      console.log(updatedProduct)
+      const product= req.body;
+      console.log(product)
+
+      const filter = {_id: new ObjectId(id)}
+      const options = {upsert: true}
+
+      const updatedProduct = {
+        $set:{
+          name: product.name,
+          price: product.price
+        }
+      }
+
+      const result = await productCollection.updateOne(filter, updatedProduct, options)
+      res.send(result)
     })
 
     app.delete("/products/:id", async (req, res) => {
